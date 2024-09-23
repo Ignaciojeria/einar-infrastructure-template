@@ -1,0 +1,9 @@
+{
+  "project": "iac",
+  "template": {
+    "tag": "v2.7.9",
+    "url": "https://github.com/Ignaciojeria/einar-cli-template-v2"
+  },
+  "installations": null,
+  "components": null
+}

@@ -1,0 +1,7 @@
+name: einarcli
+runtime: go
+description: einar projects infrastructure managed with pulumi
+config:
+  pulumi:tags:
+    value:
+      pulumi:template: einar-template

@@ -56,12 +56,11 @@ func NewOpenObserve(
 						"ZO_S3_SECRET_KEY": sa.HmacKey.Secret,
 					},
 					"config": pulumi.Map{
-						"ZO_S3_SERVER_URL":             pulumi.String("https://storage.googleapis.com"),
-						"ZO_S3_BUCKET_NAME":            bk.Bucket.Name,
-						"ZO_S3_REGION_NAME":            pulumi.String("auto"),
-						"ZO_S3_PROVIDER":               pulumi.String("s3"),
-						"ZO_S3_FEATURE_HTTP1_ONLY":     pulumi.String("true"),
-						"ZO_S3_SYNC_TO_CACHE_INTERVAL": pulumi.String("60"),
+						"ZO_S3_SERVER_URL":         pulumi.String("https://storage.googleapis.com"),
+						"ZO_S3_BUCKET_NAME":        bk.Bucket.Name,
+						"ZO_S3_REGION_NAME":        pulumi.String("auto"),
+						"ZO_S3_PROVIDER":           pulumi.String("s3"),
+						"ZO_S3_FEATURE_HTTP1_ONLY": pulumi.String("true"),
 					},
 				},
 			}, pulumi.DependsOn([]pulumi.Resource{ns}))

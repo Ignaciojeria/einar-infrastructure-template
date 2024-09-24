@@ -18,7 +18,7 @@ func init() {
 func NewOpenObserveBucket(rm *iac.PulumiResourceManager, conf configuration.Conf) {
 	rm.Register(
 		func(ctx *pulumi.Context) error {
-			name := "openobserve-einar"
+			name := conf.LoadFromSystem("OPENOBSERVE_GCS_BUCKET_NAME")
 			_, err := storage.NewBucket(ctx, name, &storage.BucketArgs{
 				Project:                  pulumi.String(conf.GOOGLE_PROJECT_ID),
 				Name:                     pulumi.String(name),

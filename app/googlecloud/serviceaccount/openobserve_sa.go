@@ -16,9 +16,15 @@ func init() {
 		iac.NewPulumiResourceManager,
 		configuration.NewConf)
 }
+
+type OpenObserveSA struct {
+	HmacKey *storage.HmacKey
+}
+
 func NewOpenObserveSA(
 	rm *iac.PulumiResourceManager,
-	conf configuration.Conf) {
+	conf configuration.Conf) *OpenObserveSA {
+	var openObserveSA OpenObserveSA
 	rm.Register(
 		func(ctx *pulumi.Context) error {
 			openObserveServiceAccountName := "openobserve-sa"
@@ -31,19 +37,22 @@ func NewOpenObserveSA(
 					AccountId:                 pulumi.String(openObserveServiceAccountName),
 					DisplayName:               pulumi.String("Open Observe GCS Account"),
 					CreateIgnoreAlreadyExists: pulumi.BoolPtr(true),
-				})
+				},
+			)
 			if err != nil {
 				return err
 			}
 			// Create the HMAC key for the associated service account
-			_, err = storage.NewHmacKey(ctx, "key", &storage.HmacKeyArgs{
+			key, err := storage.NewHmacKey(ctx, "key", &storage.HmacKeyArgs{
 				Project:             pulumi.String(conf.GOOGLE_PROJECT_ID),
 				ServiceAccountEmail: serviceAccount.Email,
 			})
 			if err != nil {
 				return err
 			}
+			openObserveSA.HmacKey = key
 			return nil
 		},
 	)
+	return &openObserveSA
 }

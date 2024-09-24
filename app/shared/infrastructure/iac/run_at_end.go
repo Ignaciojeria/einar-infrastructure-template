@@ -12,6 +12,6 @@ func init() {
 }
 func runAtEnd(rm *PulumiResourceManager) {
 	pulumi.Run(func(ctx *pulumi.Context) error {
-		return rm.Execute(ctx)
+		return rm.execute(ctx)
 	})
 }

@@ -29,7 +29,7 @@ func (rm *PulumiResourceManager) Register(f ResourceFunc) {
 }
 
 // Execute ejecuta todas las funciones de recursos en el orden registrado.
-func (rm *PulumiResourceManager) Execute(ctx *pulumi.Context) error {
+func (rm *PulumiResourceManager) execute(ctx *pulumi.Context) error {
 	for _, f := range rm.resourceFuncs {
 		if err := f(ctx); err != nil {
 			return err

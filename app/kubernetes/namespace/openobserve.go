@@ -1,6 +1,7 @@
 package namespace
 
 import (
+	"iac/app/googlecloud/serviceaccount"
 	"iac/app/shared/configuration"
 	"iac/app/shared/infrastructure/iac"
 
@@ -16,12 +17,15 @@ func init() {
 		NewOpenObserve,
 		iac.NewPulumiResourceManager,
 		configuration.NewConf,
-		NewCloudNativePostgresOperator)
+		NewCloudNativePostgresOperator,
+		serviceaccount.NewOpenObserveSA)
 }
 func NewOpenObserve(
 	rm *iac.PulumiResourceManager,
 	conf configuration.Conf,
-	opetaror *CloudNativePostgresOperator) {
+	opetaror *CloudNativePostgresOperator,
+	sa *serviceaccount.OpenObserveSA,
+) {
 	name := "openobserve"
 	rm.Register(func(ctx *pulumi.Context) error {
 		//kubectl get namespaces
@@ -30,7 +34,7 @@ func NewOpenObserve(
 				ClusterName: pulumi.String(conf.KUBERNETES_CLUSTER_NAME),
 				Name:        pulumi.String(name),
 			},
-		}, pulumi.DependsOn([]pulumi.Resource{opetaror.cloudnativePGOperatorChart}))
+		}, pulumi.DependsOn([]pulumi.Resource{opetaror.cloudnativePGOperatorChart, sa.HmacKey}))
 		if err != nil {
 			return err
 		}

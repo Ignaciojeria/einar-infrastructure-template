@@ -2,6 +2,7 @@ package main
 
 import (
 	_ "embed"
+	_ "iac/app/googlecloud/bucket"
 	_ "iac/app/googlecloud/serviceaccount"
 	_ "iac/app/kubernetes/namespace"
 	_ "iac/app/shared/configuration"

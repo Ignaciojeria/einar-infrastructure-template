@@ -18,7 +18,8 @@ func init() {
 }
 
 type OpenObserveSA struct {
-	HmacKey *storage.HmacKey
+	ServiceAccount *serviceaccount.Account
+	HmacKey        *storage.HmacKey
 }
 
 func NewOpenObserveSA(
@@ -51,6 +52,7 @@ func NewOpenObserveSA(
 				return err
 			}
 			openObserveSA.HmacKey = key
+			openObserveSA.ServiceAccount = serviceAccount
 			return nil
 		},
 	)

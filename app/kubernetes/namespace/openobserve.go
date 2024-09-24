@@ -1,6 +1,7 @@
 package namespace
 
 import (
+	"iac/app/googlecloud/bucket"
 	"iac/app/googlecloud/serviceaccount"
 	"iac/app/shared/configuration"
 	"iac/app/shared/infrastructure/iac"
@@ -18,13 +19,15 @@ func init() {
 		iac.NewPulumiResourceManager,
 		configuration.NewConf,
 		NewCloudNativePostgresOperator,
-		serviceaccount.NewOpenObserveSA)
+		serviceaccount.NewOpenObserveSA,
+		bucket.NewOpenObserveBucket)
 }
 func NewOpenObserve(
 	rm *iac.PulumiResourceManager,
 	conf configuration.Conf,
 	opetaror *CloudNativePostgresOperator,
 	sa *serviceaccount.OpenObserveSA,
+	bk *bucket.OpenObserveBucket,
 ) {
 	name := "openobserve"
 	rm.Register(func(ctx *pulumi.Context) error {
@@ -46,6 +49,20 @@ func NewOpenObserve(
 				Chart:     pulumi.String(openobserveChartID),
 				RepositoryOpts: &helmv4.RepositoryOptsArgs{
 					Repo: pulumi.String("https://charts.openobserve.ai"),
+				},
+				Values: pulumi.Map{
+					"auth": pulumi.Map{
+						"ZO_S3_ACCESS_KEY": sa.HmacKey.AccessId,
+						"ZO_S3_SECRET_KEY": sa.HmacKey.Secret,
+					},
+					"config": pulumi.Map{
+						"ZO_S3_SERVER_URL":             pulumi.String("https://storage.googleapis.com"),
+						"ZO_S3_BUCKET_NAME":            bk.Bucket.Name,
+						"ZO_S3_REGION_NAME":            pulumi.String("auto"),
+						"ZO_S3_PROVIDER":               pulumi.String("s3"),
+						"ZO_S3_FEATURE_HTTP1_ONLY":     pulumi.String("true"),
+						"ZO_S3_SYNC_TO_CACHE_INTERVAL": pulumi.String("60"),
+					},
 				},
 			}, pulumi.DependsOn([]pulumi.Resource{ns}))
 		if err != nil {

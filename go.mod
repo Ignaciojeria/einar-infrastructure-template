@@ -61,6 +61,7 @@ require (
 	github.com/pulumi/appdash v0.0.0-20231130102222-75f619a67231 // indirect
 	github.com/pulumi/esc v0.9.1 // indirect
 	github.com/pulumi/pulumi-gcp/sdk/v8 v8.2.0 // indirect
+	github.com/pulumi/pulumi-kubernetes/sdk/v3 v3.30.2 // indirect
 	github.com/pulumi/pulumi-kubernetes/sdk/v4 v4.18.1 // indirect
 	github.com/pulumi/pulumi/sdk/v3 v3.133.0 // indirect
 	github.com/rivo/uniseg v0.4.4 // indirect

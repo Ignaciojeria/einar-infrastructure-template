@@ -1,4 +1,4 @@
-package namespace
+package cloudnative_postgres
 
 import (
 	"iac/app/shared/configuration"
@@ -19,7 +19,7 @@ func init() {
 }
 
 type CloudNativePostgresOperator struct {
-	cloudnativePGOperatorChart *helmv4.Chart
+	CloudnativePGOperatorChart *helmv4.Chart
 }
 
 func NewCloudNativePostgresOperator(
@@ -56,7 +56,7 @@ func NewCloudNativePostgresOperator(
 		if err != nil {
 			return err
 		}
-		cloudNativePostgreSQL.cloudnativePGOperatorChart = cloudnativePGOpetarorChart
+		cloudNativePostgreSQL.CloudnativePGOperatorChart = cloudnativePGOpetarorChart
 		return nil
 	})
 	return &cloudNativePostgreSQL

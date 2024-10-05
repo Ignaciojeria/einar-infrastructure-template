@@ -1,4 +1,4 @@
-package serviceaccount
+package openobserve_gcp
 
 import (
 	"iac/app/shared/configuration"
@@ -12,20 +12,20 @@ import (
 
 func init() {
 	ioc.Registry(
-		NewOpenObserveSA,
+		NewOpenObserveGCPSA,
 		iac.NewPulumiResourceManager,
 		configuration.NewConf)
 }
 
-type OpenObserveSA struct {
+type OpenObserveGCPSA struct {
 	ServiceAccount *serviceaccount.Account
 	HmacKey        *storage.HmacKey
 }
 
-func NewOpenObserveSA(
+func NewOpenObserveGCPSA(
 	rm *iac.PulumiResourceManager,
-	conf configuration.Conf) *OpenObserveSA {
-	var openObserveSA OpenObserveSA
+	conf configuration.Conf) *OpenObserveGCPSA {
+	var openObserveSA OpenObserveGCPSA
 	rm.Register(
 		func(ctx *pulumi.Context) error {
 			openObserveServiceAccountName := "openobserve-sa"

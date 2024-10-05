@@ -1,7 +1,6 @@
-package bucket
+package openobserve_gcp
 
 import (
-	"iac/app/googlecloud/serviceaccount"
 	"iac/app/shared/configuration"
 	"iac/app/shared/infrastructure/iac"
 
@@ -12,24 +11,24 @@ import (
 
 func init() {
 	ioc.Registry(
-		NewOpenObserveBucket,
+		NewOpenObserveGCPBucket,
 		iac.NewPulumiResourceManager,
 		configuration.NewConf,
-		serviceaccount.NewOpenObserveSA)
+		NewOpenObserveGCPSA)
 }
 
-type OpenObserveBucket struct {
+type OpenObserveGCPBucket struct {
 	Bucket *storage.Bucket
 }
 
-func NewOpenObserveBucket(
+func NewOpenObserveGCPBucket(
 	rm *iac.PulumiResourceManager,
 	conf configuration.Conf,
-	sa *serviceaccount.OpenObserveSA) *OpenObserveBucket {
-	var openObserveBucket OpenObserveBucket
+	sa *OpenObserveGCPSA) *OpenObserveGCPBucket {
+	var openObserveBucket OpenObserveGCPBucket
 	rm.Register(
 		func(ctx *pulumi.Context) error {
-			name := conf.LoadFromSystem("OPENOBSERVE_GCS_BUCKET_NAME")
+			name := conf.OPENOBSERVE_GCS_BUCKET_NAME
 			bk, err := storage.NewBucket(ctx, name, &storage.BucketArgs{
 				Project:                  pulumi.String(conf.GOOGLE_PROJECT_ID),
 				Name:                     pulumi.String(name),

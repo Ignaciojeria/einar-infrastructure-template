@@ -1,8 +1,7 @@
-package namespace
+package openobserve_gcp
 
 import (
-	"iac/app/googlecloud/bucket"
-	"iac/app/googlecloud/serviceaccount"
+	"iac/app/cloudnative_postgres"
 	"iac/app/shared/configuration"
 	"iac/app/shared/infrastructure/iac"
 
@@ -18,16 +17,16 @@ func init() {
 		NewOpenObserve,
 		iac.NewPulumiResourceManager,
 		configuration.NewConf,
-		NewCloudNativePostgresOperator,
-		serviceaccount.NewOpenObserveSA,
-		bucket.NewOpenObserveBucket)
+		cloudnative_postgres.NewCloudNativePostgresOperator,
+		NewOpenObserveGCPSA,
+		NewOpenObserveGCPBucket)
 }
 func NewOpenObserve(
 	rm *iac.PulumiResourceManager,
 	conf configuration.Conf,
-	opetaror *CloudNativePostgresOperator,
-	sa *serviceaccount.OpenObserveSA,
-	bk *bucket.OpenObserveBucket,
+	opetaror *cloudnative_postgres.CloudNativePostgresOperator,
+	sa *OpenObserveGCPSA,
+	bk *OpenObserveGCPBucket,
 ) {
 	name := "openobserve"
 	rm.Register(func(ctx *pulumi.Context) error {
@@ -37,7 +36,7 @@ func NewOpenObserve(
 				ClusterName: pulumi.String(conf.KUBERNETES_CLUSTER_NAME),
 				Name:        pulumi.String(name),
 			},
-		}, pulumi.DependsOn([]pulumi.Resource{opetaror.cloudnativePGOperatorChart, sa.HmacKey}))
+		}, pulumi.DependsOn([]pulumi.Resource{opetaror.CloudnativePGOperatorChart, sa.HmacKey}))
 		if err != nil {
 			return err
 		}

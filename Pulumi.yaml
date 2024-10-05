@@ -1,7 +1,10 @@
-name: einarcli
+name: einar
 runtime: go
 description: einar projects infrastructure managed with pulumi
 config:
-  pulumi:tags:
-    value:
-      pulumi:template: einar-template
+  einar:port: "8080"
+  einar:project_name: "iac"
+  einar:environment: "local"
+  einar:google_project_id: "einar-404623"
+  einar:kubernetes_cluster_name: "pulumi-managed"
+  einar:openobserve_gcs_bucket_name: "openobserve-einar-test1234"

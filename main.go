@@ -2,9 +2,7 @@ package main
 
 import (
 	_ "embed"
-	_ "iac/app/googlecloud/bucket"
-	_ "iac/app/googlecloud/serviceaccount"
-	_ "iac/app/kubernetes/namespace"
+	_ "iac/app/openobserve_gcp"
 	_ "iac/app/shared/configuration"
 	"iac/app/shared/constants"
 	"log"
